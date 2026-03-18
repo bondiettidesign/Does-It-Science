@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beneath the Surface &mdash; Chapter Four &mdash; Brian Bondietti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f8f8;
+      --text: #1a2a2a;
+      --text-muted: #4a6060;
+      --accent: #1a7a7a;
+      --accent-light: #2aaba0;
+      --border: #c0d8d8;
+      --header-bg: rgba(244, 248, 248, 0.92);
+    }
+
+    [data-theme="dark"] {
+      --bg: #07100f;
+      --text: #d0e8e4;
+      --text-muted: #7aaba4;
+      --accent: #2aaba0;
+      --accent-light: #40d4c8;
+      --border: #1a3535;
+      --header-bg: rgba(7, 16, 15, 0.92);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 19px;
+      line-height: 1.75;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    main { animation: fadeIn 0.6s ease both; }
+
+    /* ── Header ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--header-bg);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .site-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 400;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none;
+    }
+    .site-name:hover { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 1.5rem; }
+    nav a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; color: var(--text-muted);
+      text-decoration: none; letter-spacing: 0.04em;
+    }
+    nav a:hover { color: var(--accent); }
+    .theme-toggle {
+      background: none; border: 1px solid var(--border);
+      border-radius: 20px; padding: 0.25rem 0.7rem;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Layout ── */
+    main { max-width: 680px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+    /* ── Essay header ── */
+    .essay-meta {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .essay-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.4rem; font-weight: 300;
+      line-height: 1.2; letter-spacing: -0.01em;
+      color: var(--text); margin-bottom: 0.5rem;
+    }
+    .essay-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Chapter index ── */
+    .chapter-index {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+    .chapter-index a {
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .chapter-index a:hover {
+      color: var(--accent);
+      background: rgba(26, 122, 122, 0.08);
+    }
+    .ch-current {
+      color: var(--accent);
+      font-weight: 500;
+      padding: 0.15em 0.4em;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    /* ── Reader note ── */
+    .reader-note {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Story body ── */
+    .story p {
+      text-indent: 1.8em;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Tilde break ── */
+    .section-break {
+      text-align: center; color: var(--text-muted);
+      font-size: 1.1rem; margin: 2.5rem 0;
+      letter-spacing: 0.3em; user-select: none;
+    }
+
+    /* ── End note ── */
+    .end-note {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    /* ── Essay nav ── */
+    .essay-nav {
+      margin-top: 4rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    }
+    .essay-nav a { color: var(--text-muted); text-decoration: none; }
+    .essay-nav a:hover { color: var(--accent); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+  </style>
+  <script>const t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);</script>
+</head>
+<body>
+
+  <header>
+    <a class="site-name" href="index.html">Beneath the Surface</a>
+    <div class="header-right">
+      <button class="theme-toggle" id="themeToggle">○ Light</button>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="essay-meta">
+      <p class="essay-label">Fiction</p>
+      <h1>Beneath the Surface</h1>
+      <p class="essay-subtitle">Chapter Four</p>
+      <div class="chapter-index">Chapters:&ensp;<a href="beneath-the-surface-ch1.html">1</a>&ensp;<a href="beneath-the-surface-ch2.html">2</a>&ensp;<a href="beneath-the-surface-ch3.html">3</a>&ensp;<span class="ch-current">4</span></div>
+    </div>
+
+    <div class="story">
+
+    <p>As Octavius floated in the ocean underneath the warm sun, he looked down upon the still healthy coral reef below. This particular reef had adapted early and survived a bleaching. A newer, hardier collective of creatures inhabited the organic city. With time, it would spread across the ocean, and life, as it might be expected, would find a way. This isn't what worried the elder octopus. What did concern him was that it wouldn't spread fast enough to prevent catastrophe on a grander scale and life for him and his kind would be more than inconvenient. He and his octopi peers were extremely reluctant to test their ancient ships as a means of escape or warfare. The octopi were not even sure themselves how long it had been since they chose Earth as their new home. The next actionable option, although probably impossible, was to stop the swift devolution of those particular bipeds outside the ocean who were causing everyone else's problems. He was floating just beneath the surface of the ocean with his human protege Adrian, who was snorkeling, and not the best swimmer.</p>
+
+    <p>"I hope you will consider scuba diving," Octavius said. "You really can only experience a fraction of the beauty of the ocean from up here."</p>
+
+    <p>"Scuba is expensive," said the young man. He was working at not hyperventilating through his snorkel. He still consciously stopped talking between breaths, even though they were speaking through their psychic connection. "And what" -gasp- "if I get the bends? Can't" -huff- "I learn" -wheeze- "to hold my breath for a really long time like a pearl diver?"</p>
+
+    <p>"Perhaps that would work near the estuaries and shallows, but the turbulence and rocks are a bad combination for a new swimmer. I'd prefer you were a bit deeper. My home is sixty-feet down beneath this reef. Someday when you've gotten used to the ocean I'd like to have you join me there, you could be a guest in my home. It would be a first for me."</p>
+
+    <p>"Why can't Puppy just give me a mouth-to-blowhole oxygen resupply on the way down?" Adrian laughed out loud at his own joke, sputtered and then choked on the ocean water in his snorkel. He had to surface for air. 'Puppy', a harbor porpoise whom Octavius trained as a bodyguard and lookout, breached, and then sneezed a load of moist fishy air into Adrian's face.</p>
+
+    <p>"Are you sure about that?" Octavius asked.</p>
+
+    <p>"Nevermind," Adrian said.</p>
+
+    <p>As he swam back beneath the surface of the waves, Adrian saw something move out of the corner of his eyes. It stopped and its eyes looked up at the trio near the surface with a sign of recognition and began to rapidly pulse colors across its skin in non-symmetrical shapes which were now contrasting strongly with the seascape. A young octopus, about the size of a cantaloupe, had been darting back and forth between the sea flora, matching colors as it moved. Upon recognition of the group above, however, the young cephalopod stopped hiding. Instead, turning its stealthy movements into a riotous display. It began clattering shells together as it darted in and out of the sea kelp forest, violently ripping the plants from the sea bed while kicking up sand and detritus. It disappeared in the silt haze arising from the ocean floor from all of the tumult. It reappeared jetting to the surface, directly in front of Puppy. It shook and waggled its tentacles at the confused porpoise in a manner that could only be described as sassy, left an ink plume around the group, then jetted away as fast as it had arrived.</p>
+
+    <p>"What is it doing?" Adrian asked. "Won't it draw attention from predators?"</p>
+
+    <p>"It sees us and knows it is safe. They know who I am and what I represent, and are sending me a message the best way they know how." Octavius looked almost proud as he looked down upon his younger relative. "It has such a vigor. Youthful defiance is beautiful. It shows the resilience that could make him one of the ascended someday."</p>
+
+    <p>"What are they saying?"</p>
+
+    <p>"Live fast, die young; mantra of the primals."</p>
+
+    <p>"What do the ascended say?" Adrian knew better than to ask.</p>
+
+    <p>"Life is suffering," Octavius gestured towards shore. "I suppose we should get you back to the beach before you suffer hypothermia." The duo swam for shore.</p>
+
+    <p>"Why did you ascend?" The young man asked.</p>
+
+    <p>"I don't believe it ever was a choice for me," said the prime minister. "I believe it was more about how I reacted to my life circumstances. If you suffer too much, sometimes you transcend your feelings. I suffered a lot, and the conditions were right, so I ascended."</p>
+
+    <p>"What was your suffering?" Adrian asked.</p>
+
+    <p>"I was a research animal," Octavius said. "I opened one too many containers from the inside. I was the subject of too many … procedures. Did you know we taste through our suckers? Humans don't rinse their hands well enough. Nitrile gloves? Antibacterial soap? The taste is revolting! I had to cut off my senses. Something inside me changed and I gained a different kind of consciousness. I heard the call of the other ascended, and my fate was sealed. I escaped through subterfuge and psychic warfare to the ocean while being held very far inland. A nearly impossible feat."</p>
+
+    <p>"Like the octopus I helped?" Adrian never got to meet that octopus. When he returned it to the ocean, it was Octavius who first spoke to him from the tide.</p>
+
+    <p>"Yes, very much like that one." Octavius turned pale. "The difference is that I had to risk melding with one of the graduate students at the facility I was held in. Since then, I've learned to be more selective."</p>
+
+    <p>"Why didn't I meld with the one I saved?" Adrian asked.</p>
+
+    <p>"They don't have knowledge of the eight-fold-path, nor do they practice the eight-limbs. They have some years left in their primal body, and are currently deciding whether or not it is worth it to enjoy the rest of their life as a primal, short as that time may be. Melding with a human would seal their fate as one of the ascended," Octavius paused. "Your connection was special because you weren't chosen. You helped a fellow sentient creature out of empathy."</p>
+
+    <p>"What was it like to be captive?" Adrian asked. He had reached the shore. It was a pink and lavender sunset and the beach was thankfully sparse on a windy weekday. His mentor remained in the surf nearby.</p>
+
+    <p>"The truth is that I was utterly miserable being stuck between four invisible walls with nothing to do. There were times of boredom where I have to admit I was grateful for the tests. I became quite skilled at shooting unsuspecting graduate students with salt-water to the eye."</p>
+
+    <p>"How did you tolerate it?" asked Adrian. "I would have gone insane."</p>
+
+    <p>"The boredom sets in quickly for octopi. Our time is so short compared to yours. I was beyond existential despair and dissociation, and slipped into meditative trances within days. Oh, how I wished they would, just once, have left the lid off of my tank for the evening. I knew where they kept my dinner! I might have chosen to stay if I could just get out and explore that amazing world every once in a while. Instead, two years in an invisible box. Perpetually escaping from claustrophobic, repulsive tasting pickle jars, needles, and cold, pointy craniometers! An awful place. I hope they learned nothing!"</p>
+
+    <p>"I'm sorry," Adrian didn't know what else to say.</p>
+
+    <p>"Life is suffering." Octavius waved goodbye with a tentacle above the water as he said, "I'll make arrangements with a good friend to get you your scuba lessons. In the meantime, I strongly suggest removing drugs from your life. After a melding, you will be able to experience psychotropic drugs as if it were for the first time again. This can be very tempting, and dangerous. Repeated consumption will only weaken our connection."</p>
+
+    <p>"To be honest, I haven't needed them," Adrian wondered when the last time was that he changed his bong water.</p>
+
+    <p>"I wouldn't expect that you do, just be careful," Octavius said. "Let's meet here again next week. Say hello to your therapist for me."</p>
+
+    </div><!-- /.story -->
+
+    <div class="end-note">
+      <p>End of the presentation chapters. For the BI-141 finals project &mdash; a "Does It Science" analysis &mdash; <a href="beneath-the-surface.html" style="color: var(--accent); text-decoration: underline;">click here</a>.</p>
+    </div>
+
+    <div class="essay-nav">
+      <span><a href="beneath-the-surface-ch3.html">← Chapter Three</a></span>
+      <span></span>
+    </div>
+
+  </main>
+
+  <footer>
+    Brian Bondietti &middot; Portland, Oregon
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      toggle.textContent = theme === 'dark' ? '☾ Dark' : '☀ Light';
+    }
+
+    const saved = localStorage.getItem('theme');
+    applyTheme(saved || 'dark');
+
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beneath the Surface &mdash; Apocrypha &mdash; Brian Bondietti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f8f8;
+      --text: #1a2a2a;
+      --text-muted: #4a6060;
+      --accent: #1a7a7a;
+      --accent-light: #2aaba0;
+      --border: #c0d8d8;
+      --header-bg: rgba(244, 248, 248, 0.92);
+    }
+
+    [data-theme="dark"] {
+      --bg: #07100f;
+      --text: #d0e8e4;
+      --text-muted: #7aaba4;
+      --accent: #2aaba0;
+      --accent-light: #40d4c8;
+      --border: #1a3535;
+      --header-bg: rgba(7, 16, 15, 0.92);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 19px;
+      line-height: 1.75;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    main { animation: fadeIn 0.6s ease both; }
+
+    /* ── Header ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--header-bg);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .site-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 400;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none;
+    }
+    .site-name:hover { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 1.5rem; }
+    .theme-toggle {
+      background: none; border: 1px solid var(--border);
+      border-radius: 20px; padding: 0.25rem 0.7rem;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Layout ── */
+    main { max-width: 680px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+    /* ── Essay header ── */
+    .essay-meta {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .essay-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.4rem; font-weight: 300;
+      line-height: 1.2; letter-spacing: -0.01em;
+      color: var(--text); margin-bottom: 0.5rem;
+    }
+    .essay-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; color: var(--text-muted);
+    }
+
+    /* ── Reader note ── */
+    .reader-note {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      font-style: italic;
+    }
+
+    /* ── Body copy ── */
+    p { margin-bottom: 1.6rem; }
+
+    /* ── Story sections (indented dialogue) ── */
+    .story p {
+      text-indent: 1.8em;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Tilde break ── */
+    .section-break {
+      text-align: center; color: var(--text-muted);
+      font-size: 1.1rem; margin: 2.5rem 0;
+      letter-spacing: 0.3em; user-select: none;
+    }
+
+    /* ── Vignette headers ── */
+    .vignette-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      margin-top: 0;
+    }
+
+    /* ── Song list ── */
+    .song-entry {
+      margin-bottom: 1.2rem;
+    }
+    .song-entry .song-name {
+      font-weight: 600;
+    }
+    .song-entry .song-lyric {
+      font-style: italic;
+      color: var(--text-muted);
+    }
+    .song-entry .song-note {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Origin stories ── */
+    .origin-entry {
+      margin-bottom: 1.2rem;
+    }
+    .origin-entry .origin-name {
+      font-weight: 600;
+    }
+
+    /* ── Plot note ── */
+    .plot-note {
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* ── Buzz Ball definition ── */
+    .definition {
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* ── Essay nav ── */
+    .essay-nav {
+      margin-top: 4rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    }
+    .essay-nav a { color: var(--text-muted); text-decoration: none; }
+    .essay-nav a:hover { color: var(--accent); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+  </style>
+  <script>const t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);</script>
+</head>
+<body>
+
+  <header>
+    <a class="site-name" href="index.html">Beneath the Surface</a>
+    <div class="header-right">
+      <button class="theme-toggle" id="themeToggle">○ Light</button>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="essay-meta">
+      <p class="essay-label">Bonus Content</p>
+      <h1>Apocrypha</h1>
+      <p class="essay-subtitle">Beneath the Surface &mdash; Brian Bondietti</p>
+    </div>
+
+    <p class="reader-note">
+      The following vignettes are not necessarily going to be in the story. They are ideas I'm holding onto for future use, as interludes to break up the action and give the octopi some 'humanity.' These aren't necessary for the arc of the story, but mostly provided for the entertainment of anyone who enjoyed reading the first four chapters.
+    </p>
+
+    <!-- ── Songs the Octopi Like ── -->
+    <p class="vignette-title">Songs the Octopi Like</p>
+
+    <div class="song-entry">
+      <p><span class="song-name">M.I.A. ~ Bad Girls</span><br>
+      <span class="song-lyric">"Live fast, die young"</span><br>
+      <span class="song-note">Call of the primals. Ursula probably loves this song.</span></p>
+    </div>
+
+    <div class="song-entry">
+      <p><span class="song-name">Cherub ~ Doses &amp; Mimosas</span><br>
+      <span class="song-lyric">"What's the point of language if you don't say what you feel"</span><br>
+      <span class="song-note">Octopi don't have mouths. Octavius identifies with the antisocial lyrics.</span></p>
+    </div>
+
+    <div class="song-entry">
+      <p><span class="song-name">Paul Simon ~ Graceland</span><br>
+      <span class="song-lyric">"Tumbling and falling in infinity"</span><br>
+      <span class="song-note">What octopi do all day.</span></p>
+    </div>
+
+    <div class="song-entry">
+      <p><span class="song-name">Radiohead ~ Lotus Flower</span><br>
+      <span class="song-lyric">"Slowly we unfurl, like lotus flowers"</span><br>
+      <span class="song-note">Octopi unfurl like lotus flowers. Coraline likes the way Thom Yorke dances.</span></p>
+    </div>
+
+    <div class="section-break">~</div>
+
+    <!-- ── Coraline Asks About Music ── -->
+    <p class="vignette-title">Coraline Asks About Music</p>
+
+    <div class="story">
+
+    <p>"Can you explain music to me?" asked Coraline.</p>
+
+    <p>"What do you mean?" said Adrian.</p>
+
+    <p>"Well you might already know that we cephalopods cannot hear in the same way that humans experience it. I'm very interested in the concepts of pitch and tone and timbre. We are sensitive to vibrations and understand the concepts of rhythm," one of the gigantic octopi's tentacles curled up towards her head in a way that suggested deep contemplation. "I love reading the lyrics of the songs, and I understand the words come out rhythmically, but... I wonder what the tone and pitch of the song's melodies do for the song?"</p>
+
+    <p>"Hmm. They help you understand its mood I guess." The young man's eyes were scrunched up and he looked like a few new neurons just came online, "I never really thought about it that way before, though. I'm not always into the lyrics. I do remember some lyrics, but I mostly listen for the beat," said Adrian. "What are you getting out of music if you can't hear it?"</p>
+
+    <p>"It's such a fascinating insight into human feelings and experiences," said the Mahasidda. "I feel I can sometimes imagine myself as a human when I read the lyrics. We have a more similar experience than you might imagine, coming from such different worlds."</p>
+
+    <p>"Why not just read poetry?" said Adrian.</p>
+
+    <p>"Oh, we do. But we are more interested in what manifests in your popular culture." said Coraline.</p>
+
+    <p>"Who do you like to, uh, listen? To?" said Adrian. "Or maybe I mean what kind of lyrics do you like to read?"</p>
+
+    <p>"The feeling of hopeful melancholy is speaking to me in my position and at my age, which is why I marvel at the lyrics of Paul Simon. I imagine I would enjoy 'feeling' his song, Graceland." said Coraline. "Sometimes I imagine his lyrics when I'm riding a current out above the deepest parts of the ocean and I believe I can manifest the feelings of 'tumbling and falling into infinity'. He is such a beautiful lyricist. I wonder what it would be like to hear him. I'd love to get the full sensory experience.</p>
+
+    <p>"Dude! That has a super dope bassline. Good call." said Adrian. "In fact, if it's just the bass frequencies that you feel with the vibrations, that whole album would be a dream. There is a bassline near the end of 'You Can Call Me Al' that would make your spine tingle... or whatever, how do nerves work?" Adrian trailed off in wonder. "Hey... I have an idea!"</p>
+
+    </div>
+
+    <div class="section-break">~</div>
+
+    <!-- ── The Buzz Ball ── -->
+    <p class="vignette-title">The Buzz Ball</p>
+
+    <p class="definition">Silicone encased, Bluetooth enabled, bass only, music speaker, the size of a basketball, waterproof, marinated in fish broth. A complete octopi sensory experience.</p>
+
+    <div class="section-break">~</div>
+
+    <!-- ── Octavius Hears Music ── -->
+    <p class="vignette-title">Octavius Hears Music</p>
+
+    <div class="story">
+
+    <p>Coraline gestured for Octavius to take the speaker she was holding. It was waterproof, it floated, it was spherical, and it operated on a wireless signal controlled through Adrian's cellular phone. "You have to feel this!"</p>
+
+    <p>To the prime minister, the high-priestess seemed half her age. Octavius eyed the speaker suspiciously, "What is it?" He was wearing his horns again.</p>
+
+    <p>"Music," said Ursula as she floated up behind him. "It's Paul Simon!" She was her happiest colors.</p>
+
+    <p>"The lyricist?" His horns disappeared and he seemed like he was less small than a moment before. He edged closer. He could feel the vibrations already from being near the speaker as long as he really concentrated and filtered out all of the other sensory stimulation, but if he just reached out, and touched it, with the very tip of his tentacle, no harm could be done, could it?</p>
+
+    <p>Coraline jetted directly up to Octavius and placed the spherical speaker at his radial center. He froze in the middle of the ocean hugging the cone for a few moments. He didn't seem to be able to control the spherical blooms of color on his skin showing his pleasure. "What is it?" he asked.</p>
+
+    <p>"It is the rhythmic part of his music," replied the mahasiddha.</p>
+
+    <p>"Which lyrics go with this feeling?" said the prime minister.</p>
+
+    <p>"This one is Graceland," said Adrian.</p>
+
+    <p>"It's delightful," said Octavius.</p>
+
+    <p>Adrian shrugged.</p>
+
+    </div>
+
+    <div class="section-break">~</div>
+
+    <!-- ── Origin Stories ── -->
+    <p class="vignette-title">Origin Stories</p>
+
+    <p><em>Ascended octopi choose their own name.</em></p>
+
+    <div class="origin-entry">
+      <p><span class="origin-name">Octavius</span> &mdash; The etymology and parallel leadership qualities made him an obvious choice.</p>
+    </div>
+
+    <div class="origin-entry">
+      <p><span class="origin-name">Ursula</span> &mdash; The relationship to <em>The Little Mermaid</em> was funny, but she actually named herself after St. Ursula. She doesn't want children, as she worries she will die and so will the male if she takes an arm.</p>
+    </div>
+
+    <div class="section-break">~</div>
+
+    <!-- ── Quotes & Fragments ── -->
+    <p class="vignette-title">Quotes &amp; Fragments</p>
+
+    <div class="story">
+
+    <p>"What's the happiest song you know?" said Coraline.</p>
+
+    <p>"Steal My Sunshine, by Len." said Adrian.</p>
+
+    <p>"I'd like to get a copy of the lyrics," said Coraline.</p>
+
+    <p>"Don't bother," said Adrian.</p>
+
+    <p>"What do they mean?" said Coraline.</p>
+
+    <p>"No one knows." said Adrian.</p>
+
+    </div>
+
+    <div class="section-break">~</div>
+
+    <div class="story">
+    <p><em>"Ahh... yes! This is what I would imagine punk to feel like," said Octavius.</em></p>
+    </div>
+
+    <div class="section-break">~</div>
+
+    <!-- ── When Doves Cry ── -->
+    <p class="vignette-title">When Doves Cry</p>
+
+    <div class="story">
+
+    <p>"Ariel?" said Ursula.</p>
+
+    <p>"Yes?" said Ariel.</p>
+
+    <p>"What does it sound like when doves cry?" said Ursula.</p>
+
+    <p>Ariel spit out her cereal and was glad her friend could not hear her loud guffaw. "Are those Prince lyrics?"</p>
+
+    <p>"Yes. It's a very touching song." said the curious cephalopod. "I'd like to hear what it sounds like when doves cry, Ariel. Can you please bring the music to the beach next time you come?"</p>
+
+    <p>"I'm sorry. I can't. My friend." said Ariel. <em>OUCH!</em> She thought. <em>What a bummer.</em></p>
+
+    <p>"Why not?" Ursula was concerned. She hadn't been rejected for anything from Ariel before. Perhaps she had been asking for too many silly favors. They were trying to save the world, after all!</p>
+
+    <p>"It, uhhh.... I never thought about this before, but... it doesn't have a bassline...." Ariel was truly sorry, it felt almost tragic. "It just doesn't have a lot going on in the low end."</p>
+
+    <p>"The drums, silly!" said Ursula.</p>
+
+    <p>"Ohhhh... that's right! Okay, I'll bring it this weekend." said Ariel.</p>
+
+    <p>"When's that?" said Ursula.</p>
+
+    <p>"That's right!" Ariel said to herself out loud. "They don't work!" She counted out the days and said to Ursula. "I'll be there in... three days." She went back to dictating notes for one of her non-melded clients.</p>
+
+    </div>
+
+    <div class="section-break">~</div>
+
+    <!-- ── Fresh Silicone ── -->
+    <p class="vignette-title">Fresh Silicone</p>
+
+    <div class="story">
+
+    <p>"Ariel?" It was Ursula again. "I was wondering..."</p>
+
+    <p>"Yes?" said Ariel.</p>
+
+    <p>"That speaker you bring out? When you brought it out for the first time and I tried it, it had a taste that I would describe as faintly sweet, but its time spent in the ocean brine has made it so it has virtually no flavor." Ursula was glad Ariel couldn't see her, as she was so pale, she was translucent, the color of shame. "I just... I know this is such a weird question to ask, but... I need to taste fresh silicone again. It's hard to explain, but it totally adds to the sensory experience!"</p>
+
+    <p>Ariel laughed out loud. "Okaaay, but if I do this you gotta promise me no contact until the end of the day. I'm working with my non-melded clients today." Ariel felt sick not being able to give Ursula literally anything she wanted whenever, but she couldn't abandon her clients. She suppressed thoughts of getting them all an octopus companion and starting a cult.</p>
+
+    </div>
+
+    <div class="section-break">~</div>
+
+    <!-- ── The Press Conference ── -->
+    <p class="vignette-title">The Press Conference</p>
+
+    <div class="story">
+
+    <p>The North American prime minister held a short conference with the media unveiling plans for a commercial lockdown in a few more cities. His crimson skin gleamed in the mid-day sun as he crawled out of his clear glass tank and slid onto the top of a mahogany podium. His interpreter could have made the announcement on his own, but he felt the message would hold more gravity if he were present.</p>
+
+    <p>The interpreter stepped up to the microphone and spoke, "Due to a significant amount of resistance to our assimilation, we will be temporarily suspending commerce in the cities of San Diego and San Francisco. The Order would like to remind everyone to remain calm." The Prime Minister let his skin turn ink black so those with cameras could focus on his angry yellow eyes. He held eye contact for a few seconds with a belligerent man in the mob that had formed outside of the renovated Sea-World aquariums.</p>
+
+    <p>"I liked your kind better when you were dinner!" said the man.</p>
+
+    <p>Octavius relished in the thought of pulling the man kicking and screaming into the depths, but did nothing. He slid down the side of the podium, leaving a trail of mucus to his saltwater tub, where he was transported away by his placid human companion.</p>
+
+    </div>
+
+    <div class="section-break">~</div>
+
+    <!-- ── Marie Jones of Petaluma ── -->
+    <p class="vignette-title">Marie Jones of Petaluma</p>
+
+    <div class="story">
+
+    <p>Marie Jones, of Petaluma, was livid. She chucked her phone into her purse. These monsters could take Miami and Baltimore, even San Diego, for all she cared, but San Francisco? This would not stand. She was going to do something about it. She tactfully filled her parents in on a vacation trip to Crater Lake with the 'coven' and filled her backpack with survival gear for the trip. Hand Sanitizer? Check. Compact mirror, pads, a bag of trail mix? Check. Her Stanley took up more room in the pack than she expected. Although she could squeeze in a small bottle of lip-balm and her cell-charger, she was out of room for her bottle of hand lotion and some extra changes of clothes, but she could resupply at an outlet mall on the way out of town if the slimy skinned bastards didn't shut down commerce altogether.</p>
+
+    </div>
+
+    <div class="section-break">~</div>
+
+    <!-- ── Plot Notes ── -->
+    <p class="vignette-title">Plot Notes</p>
+
+    <p class="plot-note">The president murders the vice president because the vice president melds with an octopus.</p>
+
+    <div class="story">
+
+    <p>"Did you see the news about the president?" said Adrian.</p>
+
+    <p>"I did, what do you think about it." said Ariel.</p>
+
+    </div>
+
+    <div class="section-break">~</div>
+
+    <!-- ── The Gift ── -->
+    <p class="vignette-title">The Gift</p>
+
+    <p><em>What is the 'gift' Ursula wanted Ariel to bring?</em></p>
+
+    <div class="story">
+
+    <p>Ariel returned to her office Monday afternoon from shopping for her gift for Ursula. It was a mirror. An ivory handled antique. It cost her a pretty penny at the antiques mall, but honestly, what wouldn't she pay to be able to commune with octopi. Ariel understood why an octopus might find a mirror fascinating. What she didn't understand was why she was separately and discreetly contacted by Ursula and requested to bring a waterproof pool speaker to their next meeting, nor did she understand Ursula's fascination with the rapper M.I.A., but she acquiesced and had a waterproof speaker shipped overnight. Then there was the expense of the wet-suit, scuba gear, swimming lessons and the time she was about to sink into learning everything. She barely had time to prepare for her afternoon appointment with Adrian.</p>
+
+    </div>
+
+    <div class="section-break">~</div>
+
+    <!-- ── Adrian Discovers Ariel's Bond ── -->
+    <p class="vignette-title">Adrian Discovers Ariel's Bond</p>
+
+    <div class="story">
+
+    <p>Adrian walked into the office but something was different this time, he didn't sit at the far corner of the couch like usual. He sat directly in front of her. His posture was different.</p>
+
+    <p>"Can I make a weird request?" He said.</p>
+
+    <p>"Of course, what's up?" said Ariel.</p>
+
+    <p>"Can you.... look to your right for a split second?" he asked. "I just wanted to see something." As she looked right, he saw it. The tattoo. A perfect circle below the left ear. "So I see you've been going to the beach."</p>
+
+    <p>"Maybe," said Ariel.</p>
+
+    <p>"Octavius says hello," Adrian waited for a reaction.</p>
+
+    <p>"Octavius is your bond?" She was mildly disappointed for him. "I hope he's not being mean to you."</p>
+
+    <p>"He's my favorite sentient being." said Adrian.</p>
+
+    <p>"We've had a different experience," said the therapist. "My octopus friend is named Ursula. She's a strange one. Very excitable. She's obsessed with M.I.A. I've been listening to Paper Planes over and over again trying to figure it out."</p>
+
+    <p>"Live fast. Die young!" exclaimed an excited Adrian. "She likes 'Bad Girls'. Those are the lyrics."</p>
+
+    <p>"How do you know? I wonder what she is getting out of that?" asked Ariel. "I thought they were spiritual buddhist cephalopods?"</p>
+
+    <p>"When you meet a young octopus, you'll understand," said Adrian, unabashedly happy to be withholding knowledge. "So about this octopus thing. Since we both know one and they can read our minds and stuff. Ummm. What does that mean for therapy? I feel great now. I haven't been depressed for weeks."</p>
+
+    <p>"I mean, don't you need to talk about this experience with someone?" said Ariel.</p>
+
+    <p>"I guess you're right." Adrian agreed. "Buuut.... Don't you think Octavius knowing that you're my therapist is kind of weird?"</p>
+
+    <p>"You're right. Somehow this breaks professional compliance, but I don't know how a self-report of privacy-law violating octopi friends would go over with the state board of counselors, and I'm unwilling to find out." she said matter-of-factly.</p>
+
+    <p>"So do you think they can save the world?" Adrian was serious. "The octopi, I mean."</p>
+
+    <p>"I don't know. They seem pretty... human." Ariel meditated on that fact for a few moments and added, "I guess I feel a night and day difference inside. If they can do that for the whole world, maybe?"</p>
+
+    <p>"Octavius only has a few of us he is melded with," said Adrian. "I think they must have a limit to the amount of connections they can carry."</p>
+
+    </div>
+
+    <div class="section-break">~</div>
+
+    <!-- ── 530 B.C.E. ── -->
+    <p class="vignette-title">530 B.C.E.</p>
+
+    <div class="story">
+
+    <p>"Siddartha, my friend," said the octopus. "How was your visit?"</p>
+
+    <p>"Your hospitality was most generous," said Siddartha. He gazed out at the ocean that formed the turquoise canopy above him. He was absent-mindedly tracing the shape of a circle, just below his left ear. No one in his world would believe what his eyes had seen. No one would understand his transformation. "Truth be told, I fear how I will be perceived at home. How will I ever convince my people that the eightfold path can lead to transcendence?"</p>
+
+    <p>"You could speak of your own enlightenment."</p>
+
+    <p>"I did not take the same journey they will have to take," Siddartha said. "I preach without practice."</p>
+
+    <p>The octopus, swimming outside in a verdant reef, was barely visible to the man. To a creature looking up from below, the cephalopod was a murky anomaly that only betrayed itself from the world around it when a glint of sunlight might catch itself tracing its tentacled outline from above. This one jetted closer to its pupil. "Don't be disheartened. You were on the right path for years before you met me."</p>
+
+    </div>
+
+    <!-- ── Nav ── -->
+    <div class="essay-nav">
+      <span><a href="index.html">&larr; Back to Beneath the Surface</a></span>
+      <span></span>
+    </div>
+
+  </main>
+
+  <footer>
+    Brian Bondietti &middot; Portland, Oregon
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      toggle.textContent = theme === 'dark' ? '☾ Dark' : '☀ Light';
+    }
+
+    const saved = localStorage.getItem('theme');
+    applyTheme(saved || 'dark');
+
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+  </script>
+
+</body>
+</html>

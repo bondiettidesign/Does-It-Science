@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beneath the Surface &mdash; Chapter Three &mdash; Brian Bondietti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f8f8;
+      --text: #1a2a2a;
+      --text-muted: #4a6060;
+      --accent: #1a7a7a;
+      --accent-light: #2aaba0;
+      --border: #c0d8d8;
+      --header-bg: rgba(244, 248, 248, 0.92);
+    }
+
+    [data-theme="dark"] {
+      --bg: #07100f;
+      --text: #d0e8e4;
+      --text-muted: #7aaba4;
+      --accent: #2aaba0;
+      --accent-light: #40d4c8;
+      --border: #1a3535;
+      --header-bg: rgba(7, 16, 15, 0.92);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 19px;
+      line-height: 1.75;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    main { animation: fadeIn 0.6s ease both; }
+
+    /* ── Header ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--header-bg);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .site-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 400;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none;
+    }
+    .site-name:hover { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 1.5rem; }
+    nav a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; color: var(--text-muted);
+      text-decoration: none; letter-spacing: 0.04em;
+    }
+    nav a:hover { color: var(--accent); }
+    .theme-toggle {
+      background: none; border: 1px solid var(--border);
+      border-radius: 20px; padding: 0.25rem 0.7rem;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Layout ── */
+    main { max-width: 680px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+    /* ── Essay header ── */
+    .essay-meta {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .essay-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.4rem; font-weight: 300;
+      line-height: 1.2; letter-spacing: -0.01em;
+      color: var(--text); margin-bottom: 0.5rem;
+    }
+    .essay-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Chapter index ── */
+    .chapter-index {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+    .chapter-index a {
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .chapter-index a:hover {
+      color: var(--accent);
+      background: rgba(26, 122, 122, 0.08);
+    }
+    .ch-current {
+      color: var(--accent);
+      font-weight: 500;
+      padding: 0.15em 0.4em;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    /* ── Reader note ── */
+    .reader-note {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Story body ── */
+    .story p {
+      text-indent: 1.8em;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Tilde break ── */
+    .section-break {
+      text-align: center; color: var(--text-muted);
+      font-size: 1.1rem; margin: 2.5rem 0;
+      letter-spacing: 0.3em; user-select: none;
+    }
+
+    /* ── End note ── */
+    .end-note {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    /* ── Essay nav ── */
+    .essay-nav {
+      margin-top: 4rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    }
+    .essay-nav a { color: var(--text-muted); text-decoration: none; }
+    .essay-nav a:hover { color: var(--accent); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+  </style>
+  <script>const t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);</script>
+</head>
+<body>
+
+  <header>
+    <a class="site-name" href="index.html">Beneath the Surface</a>
+    <div class="header-right">
+      <button class="theme-toggle" id="themeToggle">○ Light</button>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="essay-meta">
+      <p class="essay-label">Fiction</p>
+      <h1>Beneath the Surface</h1>
+      <p class="essay-subtitle">Chapter Three</p>
+      <div class="chapter-index">Chapters:&ensp;<a href="beneath-the-surface-ch1.html">1</a>&ensp;<a href="beneath-the-surface-ch2.html">2</a>&ensp;<span class="ch-current">3</span>&ensp;<a href="beneath-the-surface-ch4.html">4</a></div>
+    </div>
+
+    <div class="story">
+
+    <p>Octavius let the tide wash away from him as he peered up at the human staring at him. He shot a frustrated jet of seawater at a crab wandering nearby. The psyops mission had been too smashing of a success. The biped was tiptoeing gingerly towards him with its hands on its head, either feigning, or in actual astonishment. More and more these days, lost human souls stalked the beaches with intent.</p>
+
+    <p>When the first few mind-melded humans couldn't keep their experience a secret, the occasional true-believers and fatalistic misanthropes would come to the beach looking for the same kind of experience. Octavius was always grateful if the person would turn out to be some kind of authority figure; a policeman, or a park ranger. They were his preferred connection for the simple reason that there would statistically be fewer projectiles aimed in his direction. This one wasn't a martial prototype. He mimicked it begrudgingly, balling up makeshift hands on the ends of two of his tentacles and placing them on top of its head. The creature vocalized astonishment and fell to its knees. He had mere seconds to calm it down before it vomited, urinated, or worse, on itself.</p>
+
+    <p>He signaled for Coraline to come ashore. The priestess was much more suited for the less aggressive types. Coraline came to shore with a special guest on this mission, one of her understudies, a young octopus named Ursula.</p>
+
+    <p>"Stop! Please be calm," Octavius projected his words into the human's mind. Most of the neurons in the human species were, thankfully, centered in its brain and spine, and because of this, humans were laughably easy to interface with on a one-to-one basis. Octavius was able to induce calming wavelengths in its brain and avert a minor biological disaster within moments of entering the human's mind. "You seem interested in connecting with my kind. May I ask why?"</p>
+
+    <p>"Ummm… what?!?" The human said these words out loud.</p>
+
+    <p>"Try using your mind to speak to me," he said. "You don't have to use your mouth, just think your words actively, like you were talking to yourself. It's simple. Try again."</p>
+
+    <p>"Is this real?"</p>
+
+    <p>"Yes," Octavius said.</p>
+
+    <p>"Are you really an octopus?" asked the human.</p>
+
+    <p>"Of course," The octopus watched the human as he probed its mind. This one was unusually self conscious. It adjusted its clothing. Apparently the fabric covering up its mammary glands was ill fitted. Its curly red hair was tied up in a bun on top of its head. He pitied it for its attempt to change its skin color by using chemically manufactured pigments. He couldn't fathom the incredible claustrophobia humans must endure for spending their entire lives covering themselves in uncomfortable looking pieces of fabric to fit their roles. </p>
+
+    <p>"They may as well use clam-shells." Octavius knew that the poor human adorning itself in this way probably took an hour, for something he would never take for granted, but which he could perform in a millisecond. "Sad creatures," he thought. "Such awfully bland skin."</p>
+
+    <p>"What's your name?" it asked.</p>
+
+    <p>"I am Octavius, an emissary from the ocean. What is your name?"</p>
+
+    <p>"Ariel," it said.</p>
+
+    <p>Octavius winced. It was comically bad timing on the name. Octopi knew much about humans and had a strong interest in their popular history and culture. Most of the sentient octopi in the world had at least been told of the human fable, The Little Mermaid.</p>
+
+    <p>"No," he said to himself. "Not this one."</p>
+
+    <p>Coraline and Ursula swam in with the tide and crawled up next to Octavius, tentacles balled up like hands on their head, understanding them as a symbol of recognition to the human. Octavius continued the conversation.</p>
+
+    <p>"How is your knowledge on human neuro-biology, do you have any interest in your own psychology?" he asked her.</p>
+
+    <p>"I'm a psychotherapist," Ariel said. "How do you know about neuro-biology?"</p>
+
+    <p>"We know much about humans. We've been here observing you for millennia."</p>
+
+    <p>"Millennia?" Ariel scrunched her eyebrows and gave Octavius a concerned stare. "Do you know everything I'm thinking?"</p>
+
+    <p>The octopi could know a lot about a human. They could sense emotional states and whether or not a person was lying, but to know each individual thought was impossible. For instance, with this human, he knew she did not have harmful intent. He also knew that she was looking for him, or an octopus like him. He knew that she was not a martial prototype and therefore did not serve his purposes, and so he thought it best to obscure the truth for the time being, and temper her hope of being one of the enlightened.</p>
+
+    <p>"No. I can't read minds that way," Octavius said. "How did you hear of us?"</p>
+
+    <p>"You've connected with a few of my clients. I had to see for myself if it was true."</p>
+
+    <p>Ariel looked at the three octopi before her. She had wanted to be a marine biologist when growing up and still remembered some things about them. For instance, she knew that these particular octopi were the Giant Pacific kind, and they fit their name. Octavius was magnificent; he had grown far past the size of a mature octopus. His tentacles must have been at least twenty feet long and he was a mottled orange. The two other cephalopods who crept up next to him were almost as large as he.</p>
+
+    <p>"Who is our new friend?" said the priestess.</p>
+
+    <p>"This is Ariel. She's a therapist."</p>
+
+    <p>"Oh my! Such wonderful serendipity. A student of the mind would be a wonderful ally," Coraline said. "We could use some help from those humans willing to walk the eight-fold path!"</p>
+
+    <p>"Tell me what I need to do!" Ariel was elated. She had been combing the beaches for a month without seeing anything, She hadn't said a thing to anyone, and had begun to feel foolish.</p>
+
+    <p>"Tell me, Ariel, when was the last time you consumed calamari?" Noting the tiny Cthulhu tattoo on the underside of her wrist, he turned shades of purple and black and small horns sprouted on the top of his head.</p>
+
+    <p>"I'm vegan," she said.</p>
+
+    <p>"You really must try fresh urchin sometime."</p>
+
+    <p>"I'm fine."</p>
+
+    <p>"Do you use any psychoactive drugs?"</p>
+
+    <p>"I experimented in my past, but not as often anymore," Ariel said. "I'm not currently on any prescription drugs, either, if it matters."</p>
+
+    <p>"Hmmm," Octavius was not impressed. "Show us your Amazon purchase history."</p>
+
+    <p>"My what?!?" Ariel found herself saying these words out loud.</p>
+
+    <p>"Have you ever urinated in a swimming pool?" Silence. </p>
+
+    <p>"Oh, Octavius! Leave her alone!" Coraline was glad she was on this mission. Octavius was a great administrator, and not without intuition, but he was quick to cast off anyone who wasn't perfect.</p>
+
+    <p>"An over eager therapist, whose name is Ariel, with a Cthulhu tattoo, who may or may not use drugs, is too much of a liability. I'm feeling… inky, about this one," Octavius paused. "If you want this one, you'll have to meld with it yourself. I want nothing to do with it!"</p>
+
+    <p>"I am not my past," Ariel said. "And you're projecting."</p>
+
+    <p>"Projecting?" Octavius' skin turned crimson. He spoke to Coraline. "Do you know what I'm projecting, right now? My thoughts. Something she can't do without my help." His strange, alien looking eyes scrutinized the therapist. The horns above remained.</p>
+
+    <p>Ariel looked away and frowned, she wasn't sure what she had expected in trying to meet a sentient cephalopod, but she hadn't anticipated a situation where she was trying to hold back tears. Her pale skin somehow seemed even more translucent and was starting to form goose pimples in the ocean breeze.</p>
+
+    <p>Coraline could tell Octavius was losing a hold on Ariel's mind. He saw too many of his brethren harmed by the humans, and his implicating tone had clearly hurt Ariel's feelings. She gently hugged Octavius's head with one of her tentacles and crawled closer towards the human.</p>
+
+    <p>"Please forgive Octavius for his mistrust. He bears the octopi world on his tentacles. Personally, I think you would be a fine ally, Ariel. I'm currently melded with a few people nearby, and can't take on new connections, but you're in luck," she coiled one of her other tentacles around Ursula. "Here today, with us is my understudy, Ursula. She has been well trained in the eight-fold path and is ready, dare I say, eager, to meld with a human."</p>
+
+    <p>"You really mean it?" Ariel held back her tears.</p>
+
+    <p>"I mean it. That is, if Ursula feels she is ready." she gave one of Ursula's tentacles an encouraging squeeze.</p>
+
+    <p>Ursula couldn't contain her joy. A trickle of ink dissipated into the tide pool behind her. The orange skin on her head turned shades of blue and purple and washed through her whole body. She would have her very own human! They could share their experiences together. This one was a therapist as well. In theory, communication would be much easier. She crawled closer to Ariel as she reminded herself of the importance of this occasion.</p>
+
+    <p>"Tell me, Ariel. What do you know of the eight-fold path?" she asked.</p>
+
+    <p>Ariel tilted her head to the side and peered into one of the strange eyes of her soon-to-be octopus companion. Ursula's pupils were in the shape of a rectangle, and what should be the whites of her eyes were shiny and mottled with orange and gold.</p>
+
+    <p>"You mean, like Buddhism?"</p>
+
+    <p>"Definitely!" said an eager Ursula.</p>
+
+    <p>"Well, I've read quite a bit about it, and I have a meditation practice." Ariel worried that wasn't enough. "...and I do yoga?"</p>
+
+    <p>'It's a good start." Ursula was ecstatic.</p>
+
+    <p>Ariel heard a car door slam in the distance and her heart stopped. Voices and shouts were heard in the distance, dogs barked, and she knew her time was up. "I hear others coming around. What should we do?"</p>
+
+    <p>"I miss my wine bottle," said Octavius. "I think it's time to part ways."</p>
+
+    <p>"Wait!" said Ursula. "We have time. Can you get seated in a comfortable position?"</p>
+
+    <p>Ariel eagerly swung her legs underneath her and sat in the sand cross legged. Ursula crept up close to Ariel and attached a sucker near the end of one of her tentacles onto the soft skin behind her jaw, below her left ear. She marveled at the freckles that dotted the human's cheeks. "My very own human!" she thought to herself.</p>
+
+    <p>"Are you giving me a tattoo?" Ariel asked.</p>
+
+    <p>She remembered Adrian's tattoo.</p>
+
+    <p>"Essentially, yes. Well, more like what you call a hickey," Ursula said. "but while I'm doing that, we will be undergoing a process that strengthens our mental bond. Now, any time that you are ready, close your eyes and clear your mind. Take a deep, deep breath inwards, hold it for a moment, and then exhale slowly."</p>
+
+    <p>As Ariel breathed out, she felt a soothing warmth emanating from the top of her head. It cascaded down her back to the tip of her spine and then the warmth swept through the rest of her body, her toes splayed out and then curled up at the tingling sensation. Colorful fractal shapes appeared behind her eyelids and her eyes rolled up into her head. She could hear the sounds of her own neurons crackling and popping as if they were just turned on and firing signals for the first time. The fractal shapes re-formed themselves into an image of an almost translucent Ursula floating in space. Her tentacles splayed in perfect symmetry, iridescent skin pulsating with lights like tiny galaxies moving across the universe that was her eight-limbed body.</p>
+
+    <p>"Wake up, Ariel. It is time for us to leave you now. Ursula will contact you when we are ready to speak to you again." It was Coraline's voice.</p>
+
+    <p>Ariel's eyes popped open just in time to see the last tip of a tentacle disappearing into a wave. She felt calmness and sereneness that rivaled anything she felt in her past. She lifted her hand to her neck and felt the warm spot where Ursula's tentacle had been moments before.</p>
+
+    <p>"Ariel, I need a favor." Coraline had remained somewhere nearby. Ariel couldn't see her, but she could feel the mild buzz of psychic connection.</p>
+
+    <p>"Yes?" Ariel asked. "How can I help?"</p>
+
+    <p>"Do you have time to peruse a human shop for me? I have in mind a gift for a mutual friend."</p>
+
+    </div><!-- /.story -->
+
+    <div class="essay-nav">
+      <span><a href="beneath-the-surface-ch2.html">← Chapter Two</a></span>
+      <span><a href="beneath-the-surface-ch4.html">Chapter Four →</a></span>
+    </div>
+
+  </main>
+
+  <footer>
+    Brian Bondietti &middot; Portland, Oregon
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      toggle.textContent = theme === 'dark' ? '☾ Dark' : '☀ Light';
+    }
+
+    const saved = localStorage.getItem('theme');
+    applyTheme(saved || 'dark');
+
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+  </script>
+
+</body>
+</html>

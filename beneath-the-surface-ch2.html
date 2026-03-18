@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beneath the Surface &mdash; Chapter Two &mdash; Brian Bondietti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f8f8;
+      --text: #1a2a2a;
+      --text-muted: #4a6060;
+      --accent: #1a7a7a;
+      --accent-light: #2aaba0;
+      --border: #c0d8d8;
+      --header-bg: rgba(244, 248, 248, 0.92);
+    }
+
+    [data-theme="dark"] {
+      --bg: #07100f;
+      --text: #d0e8e4;
+      --text-muted: #7aaba4;
+      --accent: #2aaba0;
+      --accent-light: #40d4c8;
+      --border: #1a3535;
+      --header-bg: rgba(7, 16, 15, 0.92);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 19px;
+      line-height: 1.75;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    main { animation: fadeIn 0.6s ease both; }
+
+    /* ── Header ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--header-bg);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .site-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 400;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none;
+    }
+    .site-name:hover { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 1.5rem; }
+    nav a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; color: var(--text-muted);
+      text-decoration: none; letter-spacing: 0.04em;
+    }
+    nav a:hover { color: var(--accent); }
+    .theme-toggle {
+      background: none; border: 1px solid var(--border);
+      border-radius: 20px; padding: 0.25rem 0.7rem;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Layout ── */
+    main { max-width: 680px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+    /* ── Essay header ── */
+    .essay-meta {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .essay-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.4rem; font-weight: 300;
+      line-height: 1.2; letter-spacing: -0.01em;
+      color: var(--text); margin-bottom: 0.5rem;
+    }
+    .essay-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Chapter index ── */
+    .chapter-index {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+    .chapter-index a {
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .chapter-index a:hover {
+      color: var(--accent);
+      background: rgba(26, 122, 122, 0.08);
+    }
+    .ch-current {
+      color: var(--accent);
+      font-weight: 500;
+      padding: 0.15em 0.4em;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    /* ── Reader note ── */
+    .reader-note {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Story body ── */
+    .story p {
+      text-indent: 1.8em;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Tilde break ── */
+    .section-break {
+      text-align: center; color: var(--text-muted);
+      font-size: 1.1rem; margin: 2.5rem 0;
+      letter-spacing: 0.3em; user-select: none;
+    }
+
+    /* ── End note ── */
+    .end-note {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    /* ── Essay nav ── */
+    .essay-nav {
+      margin-top: 4rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    }
+    .essay-nav a { color: var(--text-muted); text-decoration: none; }
+    .essay-nav a:hover { color: var(--accent); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+  </style>
+  <script>const t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);</script>
+</head>
+<body>
+
+  <header>
+    <a class="site-name" href="index.html">Beneath the Surface</a>
+    <div class="header-right">
+      <button class="theme-toggle" id="themeToggle">○ Light</button>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="essay-meta">
+      <p class="essay-label">Fiction</p>
+      <h1>Beneath the Surface</h1>
+      <p class="essay-subtitle">Chapter Two</p>
+      <div class="chapter-index">Chapters:&ensp;<a href="beneath-the-surface-ch1.html">1</a>&ensp;<span class="ch-current">2</span>&ensp;<a href="beneath-the-surface-ch3.html">3</a>&ensp;<a href="beneath-the-surface-ch4.html">4</a></div>
+    </div>
+
+    <div class="story">
+
+    <p>A tall, skinny young man in blue jeans and slides sat in the far corner of a couch. He was in a small office which was decked out in maritime antiques, feathers, and seashells. Also in the office, was the man's psychotherapist.</p>
+
+    <p>"So, I did something crazy a few weeks ago," he said. "Do you know about the stolen octopus from the Seaside Aquarium?"</p>
+
+    <p>The therapist nodded.</p>
+
+    <p>"It was me," said the young man.</p>
+
+    <p>"You stole the octopus from the Seaside Aquarium?"</p>
+
+    <p>"Yep." The young man was staring at a chart on the wall. The chart mapped the human nervous system. He shrugged and glanced at her to see her reaction before focusing back at the poster.</p>
+
+    <p>"Why did you do that?"</p>
+
+    <p>"I felt sorry for it," He reached up to rub a recent tattoo. It was a perfect circle, just behind his ear below the hairline.</p>
+
+    <p>"You felt sorry for it?"</p>
+
+    <p>"I mean- It's just depressing! Staring at it there with nothing for it to do! It could have a whole ocean to play in, and they don't even take care of that place anymore. It was definitely better off escaping."</p>
+
+    <p>"So where is it now?" said the therapist.</p>
+
+    <p>"The ocean."</p>
+
+    <p>"Let me make sure I have everything straight in my mind," she said as she arched a red eyebrow. "You just told me you stole the octopus from the Seaside Aquarium and... you put it back in the ocean?"</p>
+
+    <p>"Yep."</p>
+
+    <p>"How do you do it?" she asked.</p>
+
+    <p>"I just put it in a five gallon bucket full of seawater and drove it to the beach. It was really easy. " The young man took a deep breath and exhaled before finally turning towards his therapist, his eyes wide with excitement. "I just walked right up to the little guy like I knew what I was doing. There were other folks, but I think they all assumed I worked there. The octopus practically hopped into the bucket. I took it to my truck, buckled it into the front seat and just drove off like everything was fine."</p>
+
+    <p>"So it stayed put while you drove it to the beach?" The therapist's composure would have been notable to her peers.</p>
+
+    <p>"Nope. It crawled up out of the bucket of seawater where I had it strapped in, and it was looking out the window on the way to the beach. Its tentacle sucker marks are still on my inside window. I don't even want to remove them!"</p>
+
+    <p>"The octopus was happy to be going to the beach?"</p>
+
+    <p>"Yep!" The man's eyes were two shame-free pools of blue.</p>
+
+    <p>"How do you know it was happy?"</p>
+
+    <p>"When we parked the truck, I tried to put it back into the bucket to carry it out. It didn't want to go in, and it climbed on my shoulder and pointed a tentacle at the ocean."</p>
+
+    <p>"It just pointed?"</p>
+
+    <p>"Yep," the young man smiled. "and then I brought it to the beach!"</p>
+
+    <p>"I'm kind of jealous. It sounds like an amazing experience." She really was a bit envious.</p>
+
+    <p>"Well here's the actual amazing part; the octopus was hanging out there in the sandy part of the beach as the tide went out, so I stood on the edge of the beach and watched it. As the waves went out, a bunch more appeared on the beach behind it. I put both of my hands on the top of my head, like this," he acted the scene out for his therapist, miming astonishment. "and what happened next is what makes me think I'm crazy. The octo- like, all of them, well... They copied me. They, all at once, turned towards me and balled the ends of their tentacles up like little fists and then they placed them on top of their heads!"</p>
+
+    <p>His hands were still at the top of his head.</p>
+
+    <p>"That's astonishing!" The therapist was struggling hard not to mirror his gestures. "I never knew an octopus could do such a thing. Did you try waving your hands around or spinning in circles to see if they would copy you?" She hoped she didn't sound too facetious.</p>
+
+    <p>"No, I didn't. I just watched for a bit, and that's when they started talking to me."</p>
+
+    <p>The therapist gave him a stone-cold stare. "But how did they talk to you? They don't have mouths like ours."</p>
+
+    <p>"They talked to me through my mind."</p>
+
+    <p>"Your mind?" She arched an eyebrow.</p>
+
+    <p>"Yep." He looked back at the chart of the central-nervous system on the wall.</p>
+
+    <p>"What did they say?"</p>
+
+    <p>"Well, first, they said, 'Stop. Don't move.'"</p>
+
+    <p>"Anything else?"</p>
+
+    <p>"You'll do,"</p>
+
+    <p>"You'll do? For what?"</p>
+
+    <p>He didn't want to tell her what. "I was probably just delirious. I haven't been getting much sleep." He was saved by the chime marking his session coming to a close. "Maybe we can unpack it next week?" The young man snatched his backpack up off the floor and headed out. He stopped right before he walked out the door. He turned and said "So, are you gonna turn me in?"</p>
+
+    <p>She didn't tell him he wasn't the first person with stories of sentient octopi, nor did she mention she had been combing the beaches for the past few weeks after hearing more than one contact experience.</p>
+
+    <p>"Please, call me if it happens again. Otherwise, I'll see you next week."</p>
+
+    </div><!-- /.story -->
+
+    <div class="essay-nav">
+      <span><a href="beneath-the-surface-ch1.html">← Chapter One</a></span>
+      <span><a href="beneath-the-surface-ch3.html">Chapter Three →</a></span>
+    </div>
+
+  </main>
+
+  <footer>
+    Brian Bondietti &middot; Portland, Oregon
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      toggle.textContent = theme === 'dark' ? '☾ Dark' : '☀ Light';
+    }
+
+    const saved = localStorage.getItem('theme');
+    applyTheme(saved || 'dark');
+
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+  </script>
+
+</body>
+</html>

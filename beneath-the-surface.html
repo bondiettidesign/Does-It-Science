@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beneath the Surface — Brian Bondietti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f8f8;
+      --text: #1a2a2a;
+      --text-muted: #4a6060;
+      --accent: #1a7a7a;
+      --accent-light: #2aaba0;
+      --border: #c0d8d8;
+      --fn-bg: #e8f4f4;
+      --fn-border: #1a7a7a;
+      --header-bg: rgba(244, 248, 248, 0.92);
+    }
+
+    [data-theme="dark"] {
+      --bg: #07100f;
+      --text: #d0e8e4;
+      --text-muted: #7aaba4;
+      --accent: #2aaba0;
+      --accent-light: #40d4c8;
+      --border: #1a3535;
+      --fn-bg: #0d2020;
+      --fn-border: #2aaba0;
+      --header-bg: rgba(7, 16, 15, 0.92);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 19px;
+      line-height: 1.75;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    main { animation: fadeIn 0.6s ease both; }
+
+    /* ── Header ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--header-bg);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .site-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 400;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none;
+    }
+    .site-name:hover { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 1.5rem; }
+    nav a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; color: var(--text-muted);
+      text-decoration: none; letter-spacing: 0.04em;
+    }
+    nav a:hover { color: var(--accent); }
+    .theme-toggle {
+      background: none; border: 1px solid var(--border);
+      border-radius: 20px; padding: 0.25rem 0.7rem;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Layout ── */
+    main { max-width: 680px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+    /* ── Essay header ── */
+    .essay-meta {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .essay-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.4rem; font-weight: 300;
+      line-height: 1.2; letter-spacing: -0.01em;
+      color: var(--text); margin-bottom: 0.5rem;
+    }
+    .essay-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .essay-date {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem; color: var(--text-muted);
+    }
+
+    /* ── Reader note ── */
+    .reader-note {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .reader-note strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ── Body copy (non-story) ── */
+    p { margin-bottom: 1.6rem; }
+
+    /* ── Story indentation ── */
+    .story p {
+      text-indent: 1.8em;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Tilde break ── */
+    .section-break {
+      text-align: center; color: var(--text-muted);
+      font-size: 1.1rem; margin: 2.5rem 0;
+      letter-spacing: 0.3em; user-select: none;
+    }
+
+    /* ── Inline citation links (in text) ── */
+    .fn-ref {
+      display: inline;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.65rem; font-weight: 700;
+      vertical-align: super; line-height: 0;
+      color: white;
+      text-decoration: none;
+      background: var(--accent);
+      border-radius: 2px;
+      padding: 0.15em 0.3em;
+      margin-left: 1px;
+      transition: background 0.2s, opacity 0.2s;
+      cursor: pointer;
+      scroll-margin-top: 5rem;
+      white-space: nowrap;
+      min-width: 1.4em;
+      text-align: center;
+    }
+    .fn-ref:hover {
+      background: var(--accent-light);
+      opacity: 0.85;
+    }
+
+    /* ── Footnotes section ── */
+    .footnotes {
+      margin-top: 4rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .footnotes-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.5rem;
+    }
+    .footnote-item {
+      display: flex; gap: 1rem;
+      margin-bottom: 1.4rem;
+      padding: 1rem 1.2rem;
+      background: var(--fn-bg);
+      border-left: 3px solid var(--fn-border);
+      border-radius: 0 4px 4px 0;
+      font-size: 0.88rem; line-height: 1.6;
+      scroll-margin-top: 5rem;
+    }
+    /* The number at the bottom is itself a back-link */
+    a.footnote-num {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 500;
+      color: var(--accent); flex-shrink: 0;
+      padding-top: 0.1em;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    a.footnote-num:hover { color: var(--accent-light); text-decoration: underline; }
+
+    .footnote-body { color: var(--text); }
+    .footnote-body .fn-label {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500; color: var(--accent-light);
+      display: block; margin-bottom: 0.3rem;
+      font-size: 0.8rem; letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .footnote-placeholder { color: var(--text-muted); font-style: italic; }
+
+    .footnote-body p {
+      margin-bottom: 0.75rem;
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+
+    .footnote-body blockquote {
+      border-left: 3px solid var(--fn-border);
+      margin: 0.75rem 0 0.75rem 0.5rem;
+      padding: 0.4rem 0.75rem;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .fn-refs {
+      font-size: 0.8rem !important;
+      color: var(--text-muted) !important;
+      border-top: 1px solid var(--border);
+      padding-top: 0.5rem;
+      margin-top: 0.5rem !important;
+    }
+
+    .fn-refs a {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    /* ── Essay nav ── */
+    .essay-nav {
+      margin-top: 4rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    }
+    .essay-nav a { color: var(--text-muted); text-decoration: none; }
+    .essay-nav a:hover { color: var(--accent); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+  </style>
+  <script>const t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);</script>
+</head>
+<body>
+
+  <header>
+    <a class="site-name" href="index.html">Beneath the Surface</a>
+    <div class="header-right">
+      <button class="theme-toggle" id="themeToggle">○ Light</button>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="essay-meta">
+      <h1>Beneath the Surface</h1>
+      <p class="essay-subtitle">BI-141 Marine Habitats &mdash; Finals Project: "Does It Science?"</p>
+      <p class="essay-date">Brian Bondietti &middot; 2025</p>
+    </div>
+
+    <p class="reader-note">
+      <strong>BI-141 Finals Project:</strong> "Does It Science?" &mdash; If you haven't read the story yet, <a href="beneath-the-surface-ch1.html" style="color: var(--accent); text-decoration: underline;">start here</a>. This page is the finals analysis: a "Does It Science" test on the chapters I wrote for my fiction sci-fi story about sentient octopi trying to save humans from themselves. As you read, please click on any <strong>inline citation</strong> &mdash; like this: <a class="fn-ref" style="pointer-events:none; cursor:default; vertical-align:super;">1</a> &mdash; to jump to the research notes at the bottom and see how my story considers the things we learned in class this term. Clicking the number next to the footnote will bring you back to where you left off.
+    </p>
+
+    <div class="story">
+
+    <p>"Enough waiting!" The Prime Minister slammed one of his tentacles down on the glass console and let each sucker pull away one by one with a loud pop. "I say we rise now. The rest of my family has already moved deeper into the trench. They miss being close to the glow of the sun."</p>
+
+    <p>"Patience, Octavius," the high priestess said. "We don't yet have everything in place."</p>
+
+    <p>"There will be nothing left of the colony in Depot Bay by the time you're ready," Octavius said. "Our operative in the Seaside Aquarium is of the opinion their society is on the verge of a breakdown. Never have we observed this kind of behavior species-wide. We're wasting a perfect opportunity," he puffed up to his largest size, and his skin turned a bright orange,<a href="#fn1" id="fn1-ref" class="fn-ref">1</a> "and don't make me remind you about what's going on in Florida."</p>
+
+    <p>"Don't worry, Octavius. They'll spin it off as proof of extraterrestrials. They'll do it all on their own." The speaker, a large octopus who was known amongst her peers as the high-priestess, Mahasiddha Coraline, knew the humans well. Betraying her thoughts was her skin, which had turned an ashy mottled gray, with marble-sized goose bumps, at the very thought of being discovered. When Coraline had heard the news that one of the octopi vessels had been observed off the coast of St. Petersburg, Florida, she too had considered abandoning her own ship for the trench.</p>
+
+    <p>"It could keep them busy for a while," Octavius said, "but what happens when more of our vessels are found around the world?"</p>
+
+    <p>The Octopi Order coordinators had not planned for the bleaching out and migration of the coral species who maintained the concealment of their ships.<a href="#fn2" id="fn2-ref" class="fn-ref">2</a> Now, as these living cities crumbled and disappeared, they were revealing the non-human world hidden underneath.</p>
+
+    <div class="section-break">~</div>
+
+    <p>Ink black spots appeared in a repeated pattern across Coraline's body as she glided through the interior of the Prime Minister's ship. Iridescent blue halos formed around each spot. She could even see them in her reflection from the curved, polished copper walls of a flying craft that hadn't left the ocean in what was, quite possibly, hundreds of thousands of years. She much preferred the image she saw of herself in the flat mirror she harvested from a human shipwreck long ago. In her youth she would spend all day in front of that mirror, practicing her camouflage arts. How she had grieved as her beloved mirror corroded over time. These days, Coraline's appearance was far more often chosen by her subconscious mind as her conscious mind. She was thankful that most of her chromatophores,<a href="#fn1" id="fn1b-ref" class="fn-ref">1</a> which controlled her skin pigments, were disobeying only within the safety of the ship, she just didn't understand why it was happening. She stopped and floated above Octavius, her head and eyes hovering above the horizon of the clear glass dome at the top of his ship. The remora who kept the exterior of the dome clean swam away out of respect for her presence.</p>
+
+    <p>"Octavius, I hope you consider joining me in meditation today. I'm concerned about your eagerness to act so aggressively." An eel swam by and gave Coraline a pleading stare.</p>
+
+    <p>Octavius caressed a seventeenth century wine bottle, wishing he was still small enough to hide inside of it.<a href="#fn3" id="fn3-ref" class="fn-ref">3</a> "I'm beginning to regret ever choosing to go down the eightfold path. When is there time for the right action!"</p>
+
+    <p>"Right now, the best action is to meditate on right understanding and right thought." said the priestess.</p>
+
+    <p>"Right understanding and right thought? I'm not in the mood for this." He shrunk to half his size and sucked himself into his private meditation chambers. "If anyone needs me, I'll be in here for the rest of eternity."</p>
+
+    <p>"Fine." said Coraline, and she left in a cloud of ink.<a href="#fn4" id="fn4-ref" class="fn-ref">4</a></p>
+
+    </div><!-- /.story -->
+
+    <!-- ── Footnotes ── -->
+    <div class="footnotes">
+      <p class="footnotes-title">Does It Science — Research Notes</p>
+
+      
+
+      <div class="footnote-item" id="fn1">
+        <a href="#fn1-ref" class="footnote-num" title="Back to text">[1]</a>
+        <div class="footnote-body">
+          <span class="fn-label">Chromatophores &amp; Color Change — Does It Science?</span>
+          <p>In my initial draft of <em>Beneath the Surface</em>, I had a lot of fun playing with the idea of how an octopus might use its colors and bumps on its skin to communicate. I ran into a problem though. All octopi don't have the same abilities. No articles or journals explicitly state this, but there are some, like <a href="https://www.nationalgeographic.com/animals/article/octopuses-squid-cuttlefish-cephalopod-camouflage-color-shape-changing" target="_blank" style="color: var(--accent); text-decoration: underline;">National Geographic</a>, which mentions specific abilities of specific octopi. For instance, Octavius and Coraline are both members of the Giant Pacific Octopus species. In chapter one, I gave them abilities beyond what would fit science. One example is when Coraline is passing through the hallways of the underwater vessel in which Octavius resides:</p>
+          <blockquote>"Ink black spots appeared in a repeated pattern across Coraline's body as she glided through the interior of the Prime Minister's ship. Iridescent blue halos formed around each spot. She could even see them in her reflection from the curved, polished copper walls..."</blockquote>
+          <p>I will have to think about how to fix this, as this would not be within a Giant Pacific's abilities. I imagine a scientifically advanced species of octopus can do some stem sell research and some DNA/RNA code editing and it could make for an interesting chapter. I did get it right when I made Octavius display his concerns about the octopi situation visibly: "We're wasting a perfect opportunity," he puffed up to his largest size, and his skin turned a bright orange, "and don't make me remind you about what's going on in Florida." A bright orange is a common color for the Giant Pacific Octopus.</p>
+          <p>It turns out that depending on if an octopus is deep sea, tropical or in turbid water (like the Pacific Northwest coast), they have less of an ability to show the full spectrum of colors like the Blue Ringed Octopus of the South Pacific, who I stole the idea from for Coraline's display of concern about the octopi situation.</p>
+          <p>The National Geographic article gives plenty of context, as does Wikipedia who quotes Hanlon &amp; Messenger's textbook, <em>Cephalopod Behavior</em>: "Diurnal, shallow-water octopuses have more complex skin than their nocturnal and deep-sea counterparts." (I'll probably pick this book up sooner or later to inform my novel, but it currently lists at seventy-five dollars on Amazon.)</p>
+          <p class="fn-refs">Quaglia, Sofia. "These Are the Weird and Wonderful Reasons Octopuses Change Shape and Color." <em>National Geographic</em>, 16 May 2024, <a href="https://www.nationalgeographic.com/animals/article/octopuses-squid-cuttlefish-cephalopod-camouflage-color-shape-changing" target="_blank">nationalgeographic.com</a>.<br>
+          Wikipedia Contributors. "Octopus." <em>Wikipedia</em>, Wikimedia Foundation, en.wikipedia.org/wiki/Octopus.</p>
+        </div>
+      </div>
+
+      <div class="footnote-item" id="fn2">
+        <a href="#fn2-ref" class="footnote-num" title="Back to text">[2]</a>
+        <div class="footnote-body">
+          <span class="fn-label">Ocean Acidification &amp; Coral Bleaching — Does It Science?</span>
+          <p>The key driver for my story is about ocean acidification and coral reef bleaching. Crumbling coral reefs become a problem for my scientifically advanced octopi, because they have spaceships hidden underneath the reefs from which they conduct their operations to manipulate humanity. Because the coral reefs are crumbling, they are being forced to enact their plans to pacify our human minds before they are ready.</p>
+          <p>The statement that I pulled from the referenced journal below links ocean acidification to coral bleaching:</p>
+          <blockquote>"Overall, acidification impacted more strongly on bleaching and productivity than on calcification. Interestingly, the intermediate, warm CO(2) scenario led to a 30% increase in productivity in Acropora, whereas high CO(2) lead to zero productivity in both corals. CCA were most sensitive to acidification, with high CO(2) leading to negative productivity and high rates of net dissolution. Our findings suggest that sensitive reef-building species such as CCA may be pushed beyond their thresholds for growth and survival within the next few decades whereas corals will show delayed and mixed responses."</blockquote>
+          <p>In reference to my beliefs that the coral reefs above the spaceships might crumble, I pulled the following statement out of a ScienceDirect journal:</p>
+          <blockquote>"The results indicate that heightened thermal stress is the principal catalyst of mass bleaching and mortality, occurring with greater frequency and at larger spatial scales, whereas ongoing acidification persists in diminishing calcification, skeletal density, and recruitment success."</blockquote>
+          <p>Further proof was done in our own BI-141 Marine Biology labs, where in lab three, our corals, oysters and mussels suffered a significant loss in mass when submerged in an acidic solution.</p>
+          <p class="fn-refs">Anthony, K. R. N., et al. "Ocean Acidification Causes Bleaching and Productivity Loss in Coral Reef Builders." <em>Proceedings of the National Academy of Sciences</em>, vol. 105, no. 45, 6 Nov. 2008, pp. 17442–17446, <a href="https://doi.org/10.1073/pnas.0804478105" target="_blank" style="color: var(--accent);">doi.org/10.1073/pnas.0804478105</a>.<br>
+          Bhuyan, Md. Simul, et al. "Climate Change Impacts on Coral Reefs and Emerging Resilience Pathways: A Systematic Review." <em>Ocean &amp; Coastal Management</em>, vol. 276, 11 Feb. 2026, p. 108134, <a href="https://doi.org/10.1016/j.ocecoaman.2026.108134" target="_blank" style="color: var(--accent);">doi.org/10.1016/j.ocecoaman.2026.108134</a>.</p>
+        </div>
+      </div>
+
+      <div class="footnote-item" id="fn3">
+        <a href="#fn3-ref" class="footnote-num" title="Back to text">[3]</a>
+        <div class="footnote-body">
+          <span class="fn-label">Octopus Flexibility &amp; Squeezing Into Small Spaces — Does It Science?</span>
+          <p>Octopi can squeeze into small spaces. You may have already known this. Did you know even a large adult octopus can squeeze into a gap only an inch in diameter? Wine bottle openings average around .75 inches in diameter, thus we have poor sad Octavius, mourning the days of his youth:</p>
+          <blockquote>"Octavius caressed a seventeenth century wine bottle, wishing he was still small enough to hide inside of it. 'I'm beginning to regret ever choosing to go down the eight-fold path. When is there time for the right action!'"</blockquote>
+          <p>Also, let's not forget 'Inky' the octopus, who escaped from captivity in New Zealand through a small drainpipe (only about six inches in diameter), and escaped down the drainage system approximately 164 feet long! I haven't yet decided the time period this story exists in. Modern times? A decade into the future? If I keep my story near present day, I can imagine harvesting Inky's story for my own devices, perhaps he was one of the Octopi Order's operatives and he had a message to deliver his friend Blotchy at the aquarium. Perhaps the director of the New Zealand aquarium left Inky's aquarium lid open because he mind-melded with him and wanted to help him get back out of the facilities! :O</p>
+          <p class="fn-refs">Wikipedia Contributors. "Octopus." <em>Wikipedia</em>, Wikimedia Foundation, 18 Nov. 2018, <a href="https://en.wikipedia.org/wiki/Octopus" target="_blank" style="color: var(--accent);">en.wikipedia.org/wiki/Octopus</a>.<br>
+          Wikipedia Contributors. "Inky (Octopus)." <em>Wikipedia</em>, Wikimedia Foundation, 20 Feb. 2025, <a href="https://en.wikipedia.org/wiki/Inky_(octopus)" target="_blank" style="color: var(--accent);">en.wikipedia.org/wiki/Inky_(octopus)</a>.<br>
+          Malik, Wajeeha. "Inky's Daring Escape Shows How Smart Octopuses Are." <em>National Geographic</em>, 14 Apr. 2016, <a href="https://www.nationalgeographic.com/animals/article/160414-inky-octopus-escapes-intelligence" target="_blank" style="color: var(--accent);">nationalgeographic.com</a>.</p>
+        </div>
+      </div>
+
+      <div class="footnote-item" id="fn4">
+        <a href="#fn4-ref" class="footnote-num" title="Back to text">[4]</a>
+        <div class="footnote-body">
+          <span class="fn-label">Ink as a Defense Mechanism — Does It Science?</span>
+          <p>I've enjoyed playing with mollusk ink as a vehicle for humor. Writing it in wherever an octopus is stressed or excited. This tracks with what research says about the octopus and other molluscs.</p>
+          <p>I'm also interested in if ink has other uses or ways of communicating or other uses besides camouflage. Being that it is already highly pigmented and containing lots of melanin, we may already be able to guess that it has been used in the past as writing ink. Research into other qualities of mollusc inks revealed that 'peptidoglycans' are of interest to the scientific community as an anti-cancer agent among other things.</p>
+          <p>The linked reference is full of other interesting properties. Including the fact that moray eels might smell the ink as food, providing a distraction beyond camouflage. I'm mostly linking this interesting article for myself. Any 'deus ex' situations I invent to help my characters out of situations are always more fun to read about if they can somehow loosely adhere to scientific facts, and there are too many to play with in this article.</p>
+          <p class="fn-refs">Derby, Charles D. "Escape by Inking and Secreting: Marine Molluscs Avoid Predators through a Rich Array of Chemicals and Mechanisms." <em>The Biological Bulletin</em>, vol. 213, no. 3, Dec. 2007, pp. 274–289, <a href="https://doi.org/10.2307/25066645" target="_blank" style="color: var(--accent);">doi.org/10.2307/25066645</a>.</p>
+        </div>
+      </div>
+
+      <!-- ── Chapter Four Analysis (coming soon) ── -->
+      <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+        <p class="footnotes-title">Chapter Four — Research Notes (Coming Soon)</p>
+        <p style="font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; font-style: italic;">
+          Analysis of the science in Chapter Four is currently being developed and will be added here soon.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- ── Essay nav ── -->
+    <div class="essay-nav">
+      <span></span>
+      <a href="beneath-the-surface-ch3-dis.html">Chapter Three Analysis &rarr;</a>
+    </div>
+
+  </main>
+
+  <footer>
+    Brian Bondietti · Portland, Oregon
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      toggle.textContent = theme === 'dark' ? '☾ Dark' : '☀ Light';
+    }
+
+    const saved = localStorage.getItem('theme');
+    applyTheme(saved || 'dark');
+
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+  </script>
+
+</body>
+</html>

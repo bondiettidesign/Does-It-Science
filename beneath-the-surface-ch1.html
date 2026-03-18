@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beneath the Surface &mdash; Chapter One &mdash; Brian Bondietti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f8f8;
+      --text: #1a2a2a;
+      --text-muted: #4a6060;
+      --accent: #1a7a7a;
+      --accent-light: #2aaba0;
+      --border: #c0d8d8;
+      --header-bg: rgba(244, 248, 248, 0.92);
+    }
+
+    [data-theme="dark"] {
+      --bg: #07100f;
+      --text: #d0e8e4;
+      --text-muted: #7aaba4;
+      --accent: #2aaba0;
+      --accent-light: #40d4c8;
+      --border: #1a3535;
+      --header-bg: rgba(7, 16, 15, 0.92);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 19px;
+      line-height: 1.75;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    main { animation: fadeIn 0.6s ease both; }
+
+    /* ── Header ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--header-bg);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .site-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 400;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none;
+    }
+    .site-name:hover { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 1.5rem; }
+    nav a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; color: var(--text-muted);
+      text-decoration: none; letter-spacing: 0.04em;
+    }
+    nav a:hover { color: var(--accent); }
+    .theme-toggle {
+      background: none; border: 1px solid var(--border);
+      border-radius: 20px; padding: 0.25rem 0.7rem;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Layout ── */
+    main { max-width: 680px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+    /* ── Essay header ── */
+    .essay-meta {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .essay-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.4rem; font-weight: 300;
+      line-height: 1.2; letter-spacing: -0.01em;
+      color: var(--text); margin-bottom: 0.5rem;
+    }
+    .essay-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Chapter index ── */
+    .chapter-index {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+    .chapter-index a {
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .chapter-index a:hover {
+      color: var(--accent);
+      background: rgba(26, 122, 122, 0.08);
+    }
+    .ch-current {
+      color: var(--accent);
+      font-weight: 500;
+      padding: 0.15em 0.4em;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    /* ── Reader note ── */
+    .reader-note {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Story body ── */
+    .story p {
+      text-indent: 1.8em;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Tilde break ── */
+    .section-break {
+      text-align: center; color: var(--text-muted);
+      font-size: 1.1rem; margin: 2.5rem 0;
+      letter-spacing: 0.3em; user-select: none;
+    }
+
+    /* ── End note ── */
+    .end-note {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    /* ── Essay nav ── */
+    .essay-nav {
+      margin-top: 4rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    }
+    .essay-nav a { color: var(--text-muted); text-decoration: none; }
+    .essay-nav a:hover { color: var(--accent); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+  </style>
+  <script>const t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);</script>
+</head>
+<body>
+
+  <header>
+    <a class="site-name" href="index.html">Beneath the Surface</a>
+    <div class="header-right">
+      <button class="theme-toggle" id="themeToggle">○ Light</button>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="essay-meta">
+      <p class="essay-label">Fiction</p>
+      <h1>Beneath the Surface</h1>
+      <p class="essay-subtitle">Chapter One</p>
+      <div class="chapter-index">Chapters:&ensp;<span class="ch-current">1</span>&ensp;<a href="beneath-the-surface-ch2.html">2</a>&ensp;<a href="beneath-the-surface-ch3.html">3</a>&ensp;<a href="beneath-the-surface-ch4.html">4</a></div>
+    </div>
+
+    <p class="reader-note">
+      This is the class presentation of the first four chapters of my sci-fi story about sentient octopi trying to save humans from themselves. For the BI-141 finals project &mdash; a "Does It Science" analysis of the science in these chapters &mdash; <a href="beneath-the-surface.html" style="color: var(--accent); text-decoration: underline;">click here</a>.
+    </p>
+
+    <div class="story">
+
+    <p>"Enough waiting!" The Prime Minister slammed one of his tentacles down on the glass console and let each sucker pull away one by one with a loud pop. "I say we rise now. The rest of my family has already moved deeper into the trench. They miss being close to the glow of the sun."</p>
+
+    <p>"Patience, Octavius," the high priestess said. "We don't yet have everything in place."</p>
+
+    <p>"There will be nothing left of the colony in Depot Bay by the time you're ready," Octavius said. "Our operative in the Seaside Aquarium is of the opinion their society is on the verge of a breakdown. Never have we observed this kind of behavior species-wide. We're wasting a perfect opportunity," he puffed up to his largest size, and his skin turned a bright orange, "and don't make me remind you about what's going on in Florida."</p>
+
+    <p>"Don't worry, Octavius. They'll spin it off as proof of extraterrestrials. They'll do it all on their own." The speaker, a large octopus who was known amongst her peers as the high-priestess, Mahasiddha Coraline, knew the humans well. Betraying her thoughts was her skin, which had turned an ashy mottled gray, with marble-sized goose bumps, at the very thought of being discovered. When Coraline had heard the news that one of the octopi vessels had been observed off the coast of St. Petersburg, Florida, she too had considered abandoning her own ship for the trench.</p>
+
+    <p>"It could keep them busy for a while," Octavius said, "but what happens when more of our vessels are found around the world?"</p>
+
+    <p>The Octopi Order coordinators had not planned for the bleaching out and migration of the coral species who maintained the concealment of their ships. Now, as these living cities crumbled and disappeared, they were revealing the non-human world hidden underneath.</p>
+
+    <div class="section-break">~</div>
+
+    <p>Ink black spots appeared in a repeated pattern across Coraline's body as she glided through the interior of the Prime Minister's ship. Iridescent blue halos formed around each spot. She could even see them in her reflection from the curved, polished copper walls of a flying craft that hadn't left the ocean in what was, quite possibly, hundreds of thousands of years. She much preferred the image she saw of herself in the flat mirror she harvested from a human shipwreck long ago. In her youth she would spend all day in front of that mirror, practicing her camouflage arts. How she had grieved as her beloved mirror corroded over time. These days, Coraline's appearance was far more often chosen by her subconscious mind as her conscious mind. She was thankful that most of her chromatophores, which controlled her skin pigments, were disobeying only within the safety of the ship, she just didn't understand why it was happening. She stopped and floated above Octavius, her head and eyes hovering above the horizon of the clear glass dome at the top of his ship. The remora who kept the exterior of the dome clean swam away out of respect for her presence.</p>
+
+    <p>"Octavius, I hope you consider joining me in meditation today. I'm concerned about your eagerness to act so aggressively." An eel swam by and gave Coraline a pleading stare.</p>
+
+    <p>Octavius caressed a seventeenth century wine bottle, wishing he was still small enough to hide inside of it. "I'm beginning to regret ever choosing to go down the eightfold path. When is there time for the right action!"</p>
+
+    <p>"Right now, the best action is to meditate on right understanding and right thought." said the priestess.</p>
+
+    <p>"Right understanding and right thought? I'm not in the mood for this." He shrunk to half his size and sucked himself into his private meditation chambers. "If anyone needs me, I'll be in here for the rest of eternity."</p>
+
+    <p>"Fine." said Coraline, and she left in a cloud of ink.</p>
+
+    </div><!-- /.story -->
+
+    <div class="essay-nav">
+      <span></span>
+      <span><a href="beneath-the-surface-ch2.html">Chapter Two →</a></span>
+    </div>
+
+  </main>
+
+  <footer>
+    Brian Bondietti &middot; Portland, Oregon
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      toggle.textContent = theme === 'dark' ? '☾ Dark' : '☀ Light';
+    }
+
+    const saved = localStorage.getItem('theme');
+    applyTheme(saved || 'dark');
+
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+  </script>
+
+</body>
+</html>
